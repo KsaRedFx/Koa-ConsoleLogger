@@ -37,6 +37,10 @@ const formatter = (order: Array<keyof ICKLParameters>, parameters: ICKLParameter
     output.push(parameters[key]);
   });
 
+  if (output.at(-1) === parameters.break) {
+    output.pop();
+  }
+
   console.log(...output);
 }
 
@@ -51,8 +55,9 @@ const responseParameters: TCKLParamsFn = (ctx, config, error?, parameters?) => {
     errorData: error && config.errorDataKey! in error ? JSON.stringify(error[config.errorDataKey!]) : undefined,
     context: ctx.state.cklcontext ? JSON.stringify(ctx.state.cklcontext) : undefined,
     event: error ? 'closed' : 'finished',
-    size: prettyBytes(ctx.response?.length),
+    size: ctx.response?.length ? prettyBytes(ctx.response?.length) : undefined,
     status: ctx.response?.status || 404,
+    url: ctx.originalUrl,
     time: timeBetween(parameters?.startTime || performance.now()),
   }
 
