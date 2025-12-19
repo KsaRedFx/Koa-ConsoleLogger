@@ -9,7 +9,7 @@ Koa Console Logger! A lightweight middleware for Koa (v2+) that prints structure
 - Request id and deployment id support
 - Custom parameter functions
 - Extra context via `ctx.state.cklcontext`
-- Extra error fields via `Error.data` (configurable key)
+- Extra error fields via `Error.log` (configurable key)
 
 ## Install
 
@@ -37,7 +37,7 @@ import { CKLogger } from 'koa-consolelogger';
 
 const config = {
   deploymentId: 'prod-1',
-  errorDataKey: 'data' // reads Error.data for extra error fields
+  errorDataKey: 'data' // reads Error.data for extra error fields instead of Error.log
 };
 
 const logger = CKLogger(config);
@@ -64,7 +64,7 @@ The library reads its runtime options from the ICKLConfig interface. Below are t
   Optional. Controls the order of fields printed for each request. Keys must match properties from ICKLParameters. If you create your own parameters function you'll have to extend this type
 
 - errorDataKey?: string  
-  Optional. Name of the property on Error instances that holds extra error fields (default: `data`). The logger will read `Error[config.errorDataKey]` if present.
+  Optional. Name of the property on Error instances that holds extra error fields (default: `log`). The logger will read `Error[config.errorDataKey]` if present.
 
 - extraParamsFn?: TCKLParamsFn  
   Optional. A function to compute or augment extra parameters for each log entry
@@ -80,7 +80,7 @@ The library reads its runtime options from the ICKLConfig interface. Below are t
 Notes:
 - All options are optional; unspecified fields fall back to the library's internal defaults (eg: deployId is generated when not supplied).
 - For extra request context use ctx.state.cklogger, or use your own custom extraParamsFn
-- Koa automatically adds the 3rd parameter of `ctx.throw()` to the `Error` object if you provide it as an object! Just set your extra data in `{ data: ... }`
+- Koa automatically adds the 3rd parameter of `ctx.throw()` to the `Error` object if you provide it as an object! Just set your extra data in `{ log: ... }`
 
 
 ## Context & Error fields
@@ -94,9 +94,9 @@ app.use(async (ctx, next) => {
 
 - Add extra fields to errors using `ctx.throw()`:
 Koa's throw will include data in an error if it's the 3rd parameter, and an object.
-By default the logger will look for `Error.data` but this can be configured via `errorDataKey`
+By default the logger will look for `Error.log` but this can be configured via `errorDataKey`
 ```js
-ctx.throw(401, 'Unauthorized', { data: { ... }});
+ctx.throw(401, 'Unauthorized', { log: { ... }});
 ```
 
 

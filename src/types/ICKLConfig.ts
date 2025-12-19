@@ -10,6 +10,6 @@ export interface ICKLConfig {
   chalk?: false, // Should colours be applied?
   break?: string // Separation character, defaults to '~'
   order?: Array<keyof ICKLParameters>,
-  errorDataKey?: string,
+  errorDataKey?: string, // Defaults to 'log'
   extraParamsFn?: TCKLParamsFn;
 }

@@ -29,7 +29,7 @@ export const defaultConfig = (): ICKLConfig => ({
   chalk: false,
   order: defaultOrder,
   break: '~',
-  errorDataKey: 'data',
+  errorDataKey: 'log',
 });
 
 /**
