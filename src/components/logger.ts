@@ -56,7 +56,7 @@ const responseParameters: TCKLParamsFn = (ctx, config, error?, parameters?) => {
     context: ctx.state.cklcontext ? JSON.stringify(ctx.state.cklcontext) : undefined,
     event: error ? 'closed' : 'finished',
     size: ctx.response?.length ? prettyBytes(ctx.response?.length) : undefined,
-    status: ctx.status || ctx.response?.status || 404,
+    status: error?.status as number || ctx.status || ctx.response?.status || 404,
     time: timeBetween(parameters?.startTime || performance.now()),
   }
 
