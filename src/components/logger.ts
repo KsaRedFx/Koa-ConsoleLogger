@@ -18,10 +18,10 @@ const timeBetween = (start: number) => {
   const diff = now - start;
 
   if (diff > 1000) {
-    return format(diff / 1000);
+    return format(Math.round(diff / 1000));
   }
 
-  return `${diff}μs`;
+  return `${Math.round(diff)}μs`;
 }
 
 /**

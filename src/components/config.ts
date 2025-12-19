@@ -3,9 +3,9 @@ import { ICKLConfig } from '../types/ICKLConfig';
 
 
 const defaultOrder = [
-  'deployId', 
   'requestId', 
   'flow', 
+  'deployId', 
   'url', 
   'status',
   'time',
