@@ -15,13 +15,13 @@ import { CKLError, ICKLParameters } from '../types/ICKLParameters';
  */
 const timeBetween = (start: number) => {
   const now = performance.now();
-  const diff = start - now;
+  const diff = now - start;
 
   if (diff > 1000) {
     return format(diff / 1000);
   }
 
-  return `${diff} μs`;
+  return `${diff}μs`;
 }
 
 /**
@@ -57,7 +57,6 @@ const responseParameters: TCKLParamsFn = (ctx, config, error?, parameters?) => {
     event: error ? 'closed' : 'finished',
     size: ctx.response?.length ? prettyBytes(ctx.response?.length) : undefined,
     status: ctx.response?.status || 404,
-    url: ctx.originalUrl,
     time: timeBetween(parameters?.startTime || performance.now()),
   }
 
@@ -71,10 +70,15 @@ export const logger = async (config: ICKLConfig, ctx: Context, next: Next) => {
     flow: '-->',
     break: config.break || '~',
     startTime: performance.now(),
-    requestId: nanoid(6),
+    requestId: ctx.state.requestId || nanoid(6),
     deployId: config.deployId,
     ip: ctx.ip,
+    url: ctx.originalUrl,
     origin: ctx.request?.header?.origin,
+  }
+
+  if (!ctx.state.requestId) {
+    ctx.state.requestId = parameters.requestId;
   }
 
   formatter(config.order!, parameters);
