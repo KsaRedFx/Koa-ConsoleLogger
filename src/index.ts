@@ -1,8 +1,8 @@
-import { Context, Next } from "koa";
+import { Context, Middleware, Next } from "koa";
 
 import { mergeConfig } from "./components/config";
 import { ICKLConfig } from "./types/ICKLConfig";
-import { logger as KCL } from "./components/logger";
+import { logger as CKL } from "./components/logger";
 
 
 /**
@@ -10,9 +10,9 @@ import { logger as KCL } from "./components/logger";
  * Returns a logger middleware, with your custom options applied
  * Used as app.use(CKLogger({ options }));
  */
-export const CKLogger = (options?: ICKLConfig) => {
+export const CKLogger = (options?: ICKLConfig): Middleware => {
   const config = mergeConfig(options);
-  return (ctx: Context, next: Next) => KCL(config, ctx, next);
+  return (ctx: Context, next: Next) => CKL(config, ctx, next);
 };
 
 /**
