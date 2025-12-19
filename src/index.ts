@@ -10,7 +10,7 @@ import { logger as KCL } from "./components/logger";
  * Returns a logger middleware, with your custom options applied
  * Used as app.use(CKLogger({ options }));
  */
-export const CKLogger = async (options?: ICKLConfig) => {
+export const CKLogger = (options?: ICKLConfig) => {
   const config = mergeConfig(options);
   return (ctx: Context, next: Next) => KCL(config, ctx, next);
 };
