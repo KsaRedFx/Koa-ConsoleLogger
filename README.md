@@ -69,14 +69,6 @@ The library reads its runtime options from the ICKLConfig interface. Below are t
 - extraParamsFn?: TCKLParamsFn  
   Optional. A function to compute or augment extra parameters for each log entry
   These parameters will be added on top of any pre-generated parameters, so that means they're completely overridable!
-  Signature:
-  ```ts
-  // (ctx, config, error?, parameters?) => ICKLParameters
-  // ctx: Koa context
-  // config: ICKLConfig
-  // error: optional CKLError when logging errors
-  // parameters: current ICKLParameters collected so far
-  ```
   Example:
   ```js
   const extraParamsFn = (ctx, config, err, params) => {
