@@ -49,7 +49,7 @@ const responseParameters: TCKLParamsFn = (ctx, config, error?, parameters?) => {
     flow: error ? 'xxx' : '<--',
     errorMessage: error?.message ? error.message : undefined,
     errorData: error && config.errorDataKey! in error ? JSON.stringify(error[config.errorDataKey!]) : undefined,
-    context: ctx.state.kclcontext ? JSON.stringify(ctx.state.ckl) : undefined,
+    context: ctx.state.cklcontext ? JSON.stringify(ctx.state.cklcontext) : undefined,
     event: error ? 'closed' : 'finished',
     size: prettyBytes(ctx.response?.length),
     status: ctx.response?.status || 404,
