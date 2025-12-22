@@ -27,6 +27,7 @@ export const defaultConfig = (): ICKLConfig => ({
   order: defaultOrder,
   break: '~',
   errorDataKey: 'log',
+  throw: true,
 });
 
 /**

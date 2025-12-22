@@ -11,5 +11,6 @@ export interface ICKLConfig {
   break?: string // Separation character, defaults to '~'
   order?: Array<keyof ICKLParameters>,
   errorDataKey?: string, // Defaults to 'log'
-  extraParamsFn?: TCKLParamsFn;
+  extraParamsFn?: TCKLParamsFn,
+  throw?: boolean,
 }

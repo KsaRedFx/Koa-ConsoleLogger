@@ -1,7 +1,7 @@
 {
   "name": "koa-consolelogger",
   "description": "A development-first console-friendly logging middleware for Koa",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "author": "KsaRedFx <ksaredfx@gmail.com>",
   "license": "MIT",
   "main": "dist/index.js",

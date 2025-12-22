@@ -55,8 +55,8 @@ const responseParameters: TCKLParamsFn = (ctx, config, error?, parameters?) => {
     errorData: error && config.errorDataKey! in error ? JSON.stringify(error[config.errorDataKey!]) : undefined,
     context: ctx.state.cklcontext ? JSON.stringify(ctx.state.cklcontext) : undefined,
     event: error ? 'closed' : 'finished',
-    size: ctx.response?.length ? prettyBytes(ctx.response?.length) : undefined,
-    status: error?.status as number || ctx.status || ctx.response?.status || 404,
+    size: ctx.response?.length ? prettyBytes(ctx.response?.length, { space: false}) : undefined,
+    status: error ? error.status as number || 500 : ctx.status || ctx.response?.status || 404,
     time: timeBetween(parameters?.startTime || performance.now()),
   }
 
@@ -90,7 +90,9 @@ export const logger = async (config: ICKLConfig, ctx: Context, next: Next) => {
     formatter(config.order!, ehancedParams);
 
     // Re-throw so other processes can handle downstream
-    throw error;
+    if (config.throw) {
+      throw error;
+    }
   }
 
   // Koa finished processing the request and no throw happened
