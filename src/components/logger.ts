@@ -15,9 +15,9 @@ import { CKLError, ICKLParameters } from '../types/ICKLParameters';
  */
 const timeBetween = (start: number) => {
   const now = performance.now();
-  const diff = now - start;
+  const diff: number = now - start;
 
-  if (diff => 1.0) {
+  if (diff > 1.0) {
     return format(Math.round(diff));
   }
 
