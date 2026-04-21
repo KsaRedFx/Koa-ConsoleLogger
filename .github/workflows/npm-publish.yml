@@ -8,20 +8,11 @@ on:
     types: [created]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-      - uses: actions/setup-node@v6
-        with:
-          node-version: 20
-          cache: 'yarn'
-      - run: yarn install --frozen-lockfile
-      - run: yarn run build
-
   publish-npm:
-    needs: build
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write # Required for OIDC
+      contents: read
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6
