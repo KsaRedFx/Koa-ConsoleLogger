@@ -17,11 +17,11 @@ const timeBetween = (start: number) => {
   const now = performance.now();
   const diff = now - start;
 
-  if (diff > 1000) {
-    return format(Math.round(diff / 1000));
+  if (diff => 1.0) {
+    return format(Math.round(diff));
   }
 
-  return `${Math.round(diff)}μs`;
+  return `${Math.round(diff * 1000)}μs`;
 }
 
 /**
