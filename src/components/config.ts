@@ -1,9 +1,11 @@
 import { nanoid } from 'nanoid';
 import { ICKLConfig } from '../types/ICKLConfig';
+import { ICKLParameters } from 'src/types/ICKLParameters';
 
 
 const defaultOrder = [
   'requestId', 
+  'method',
   'flow', 
   'deployId', 
   'url', 
@@ -16,14 +18,26 @@ const defaultOrder = [
   'errorData',
 ];
 
+export const chalkColourMap: Record<keyof ICKLParameters, string> = {
+  deployId: 'yellow',
+  requestId: 'blue',
+  method: 'bold',
+  url: 'dim',
+  flow: 'green',
+  time: 'dim',
+  size: 'dim',
+  break: 'dim',
+  errorMessage: 'red',
+}
+
 /* 
   The preset, default config that Koa Console Logger ships with
   Check the ICKLConfig type for what each option does
 */
 export const defaultConfig = (): ICKLConfig => ({
-  deployId: nanoid(4),
+  deployId: nanoid(3),
   stringify: true,
-  chalk: false,
+  chalk: true,
   order: defaultOrder,
   break: '~',
   errorDataKey: 'log',
