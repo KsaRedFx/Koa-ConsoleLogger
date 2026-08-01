@@ -17,10 +17,10 @@ import { chalkColourMap } from './config';
  */
 const timeBetween = (start: number) => {
   const now = performance.now();
-  const duration = start - now;
+  const duration = now - start;
 
   if (duration > 1.0) {
-    return format(duration);
+    return format(Math.round(duration));
   }
 
   return `${Math.round(duration * 1000)} μs`;
@@ -35,8 +35,8 @@ const formatter = (order: Array<keyof ICKLParameters>, parameters: ICKLParameter
   order.forEach((key: keyof ICKLParameters) => {
     if (!parameters) return;
     if (!parameters[key]) return;
-    
     let paramData = parameters[key];
+
     if (chalkEnabled) {
       // Apply ANSI colouring on a per-field basis.
       const chalkKey = chalkColourMap[key];
@@ -45,7 +45,7 @@ const formatter = (order: Array<keyof ICKLParameters>, parameters: ICKLParameter
       paramData = chalk(paramData);
     }
 
-    output.push(parameters[key]);
+    output.push(paramData);
   });
 
   if (output.at(-1) === parameters.break) {
@@ -66,7 +66,6 @@ const responseParameters: TCKLParamsFn = (ctx, config, error?, parameters?) => {
     errorData: error && config.errorDataKey! in error ? JSON.stringify(error[config.errorDataKey!]) : undefined,
     context: ctx.state.cklcontext ? JSON.stringify(ctx.state.cklcontext) : undefined,
     event: error ? 'closed' : 'finished',
-    method: ctx.method || 'UNKNOWN',
     size: ctx.response?.length ? prettyBytes(ctx.response?.length, { space: false }) : undefined,
     status: error ? error.status as number || 500 : ctx.status || ctx.response?.status || 404,
     time: timeBetween(parameters?.startTime || performance.now()),
@@ -85,6 +84,7 @@ export const logger = async (config: ICKLConfig, ctx: Context, next: Next) => {
     requestId: ctx.state.requestId || nanoid(4),
     deployId: config.deployId,
     ip: ctx.ip,
+    method: ctx.method || 'UNKNOWN',
     url: ctx.originalUrl,
     origin: ctx.request?.header?.origin,
   }
@@ -99,7 +99,7 @@ export const logger = async (config: ICKLConfig, ctx: Context, next: Next) => {
     await next();
   } catch (error) {
     const enhancedParams = responseParameters(ctx, config, error as CKLError, parameters);
-    formatter(config.order!, enhancedParams);
+    formatter(config.order!, enhancedParams, config.chalk);
 
     // Re-throw so other processes can handle downstream
     if (config.throw) {
