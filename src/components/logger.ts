@@ -110,7 +110,7 @@ export const logger = async (config: ICKLConfig, ctx: Context, next: Next) => {
   // Koa finished processing the request and no throw happened
   onFinished(ctx.res, (error) => {
     const ehancedParams = responseParameters(ctx, config, error as CKLError, parameters);
-    formatter(config.order!, ehancedParams);
+    formatter(config.order!, ehancedParams, config.chalk);
   });
 };
 
