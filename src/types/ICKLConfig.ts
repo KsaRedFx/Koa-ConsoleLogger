@@ -7,7 +7,7 @@ export type TCKLParamsFn = (ctx: Context, config: ICKLConfig, error?: CKLError, 
 export interface ICKLConfig {
   deployId?: string, // Custom deployment ID. If unset, randomly generated
   stringify?: boolean, // Should extra data, when found to be objects, be JSON.stringified? 
-  chalk?: false, // Should colours be applied?
+  chalk?: boolean, // Should colours be applied?
   break?: string // Separation character, defaults to '~'
   order?: Array<keyof ICKLParameters>,
   errorDataKey?: string,
