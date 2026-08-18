@@ -17,4 +17,5 @@ export interface ICKLParameters {
   event?: string,
   errorMessage?: string,
   errorData?: string,
+  timestamp?: Date,
 }

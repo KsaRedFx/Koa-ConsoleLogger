@@ -1,5 +1,5 @@
 import { nanoid } from 'nanoid';
-import { ICKLConfig } from '../types/ICKLConfig';
+import { ICKLConfig, ICKLConfigInternal } from '../types/ICKLConfig';
 import { ICKLParameters } from 'src/types/ICKLParameters';
 
 
@@ -49,12 +49,13 @@ export const defaultConfig = (): ICKLConfig => ({
  */
 export const mergeConfig = (options?: ICKLConfig) => {
   // Generate our default config
-  let config = defaultConfig();
-  if (!options) { 
-    return config;
-  }
+  let config = defaultConfig() as ICKLConfigInternal;
 
   // Overlay options overtop of our default config
-  config = { ...config, ...options };
+  Object.assign(config, options || {});
+  
+  config.fields = new Set(config.order ?? []);
+  config.formatters = {};
+
   return config;
 }

@@ -1,8 +1,9 @@
 import { Context } from "koa";
 import { CKLError, ICKLParameters } from "./ICKLParameters";
+import { ChalkInstance } from "chalk";
 
 export type TIncludeErrorOpts = boolean | { message?: boolean, data?: boolean };
-export type TCKLParamsFn = (ctx: Context, config: ICKLConfig, error?: CKLError, parameters?: ICKLParameters) => ICKLParameters;
+export type TCKLParamsFn = (ctx: Context, config: ICKLConfigInternal, error?: CKLError, parameters?: ICKLParameters) => ICKLParameters;
 
 export interface ICKLConfig {
   deployId?: string, // Custom deployment ID. If unset, randomly generated
@@ -13,4 +14,9 @@ export interface ICKLConfig {
   errorDataKey?: string, // Defaults to 'log'
   extraParamsFn?: TCKLParamsFn,
   throw?: boolean,
+}
+
+export interface ICKLConfigInternal extends ICKLConfig {
+  fields: Set<keyof ICKLParameters>,
+  formatters: Record<string, ChalkInstance>,
 }
