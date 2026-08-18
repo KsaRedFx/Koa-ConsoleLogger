@@ -74,7 +74,7 @@ const responseParameters: TCKLParamsFn = (ctx, config, error?, param?) => {
   param.errorMessage = error?.message;
 
   if (fields.has('flow')) param.flow = error ? 'xxx' : '<--';
-  if (fields.has('errorData') && Object.prototype.hasOwnProperty.call(error, config.errorDataKey!)) param.errorData = JSON.stringify(error![config.errorDataKey!]);
+  if (fields.has('errorData') && error && Object.prototype.hasOwnProperty.call(error, config.errorDataKey!)) param.errorData = JSON.stringify(error![config.errorDataKey!]);
   if (fields.has('context') && ctx.state.cklcontext) param.context = JSON.stringify(ctx.state.cklcontext);
   if (fields.has('event')) param.event = error ? 'closed' : 'finished';
   if (fields.has('size') && ctx.response?.length) param.size = prettyBytes(ctx.response.length, { space: false });
